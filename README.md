@@ -47,12 +47,22 @@ To uninstall, use the :RmVimball command.
 ### DEPENDENCIES
 
 - Requires Vim 7.0 or higher.
+- Requires the ingo-library.vim plugin ([vimscript #4433](http://www.vim.org/scripts/script.php?script_id=4433)), version 1.035 or
+  higher.
 
 CONFIGURATION
 ------------------------------------------------------------------------------
 
 For a permanent configuration, put the following commands into your vimrc:
-configvar
+
+You may want to exclude some mappings or commands by default (e.g. simple
+aliases or compatibiliy mappings when some key combinations are not
+available). You can define a List of regular expressions; if the left-hand
+side of the mapping / the command name matches any of those, it is filtered
+out:
+
+    let g:fuf_digest_vim_FilteredCommandsPatterns = ['IgnoreMe']
+    let g:fuf_digest_vim_FilteredMappingsPatterns = ['^\\xy']
 
 plugmap
 CONTRIBUTING

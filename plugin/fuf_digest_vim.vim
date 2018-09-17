@@ -3,19 +3,10 @@
 " DEPENDENCIES:
 "   - fuf/digest/vim.vim autoload script
 "
-" Copyright: (C) 2017 Ingo Karkat
+" Copyright: (C) 2017-2018 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
-"
-" REVISION	DATE		REMARKS
-"	003	29-Nov-2017	Rename ...MappingAnyMode() to
-"				...MappingGenericMode(), and pass mode as first argument.
-"	002	03-Nov-2017	Move :Maps, :Nmaps, :Omaps, :Vmaps, :Xmaps,
-"				:Smaps, :Imaps, :Cmaps from ingocommands.vim and
-"				implement with drill-down functionality from
-"				here.
-"	001	24-Oct-2017	file creation
 
 " Avoid installing twice or when in unsupported Vim version.
 if exists('g:loaded_fuf_digest_vim') || (v:version < 700)
@@ -24,6 +15,18 @@ endif
 let g:loaded_fuf_digest_vim = 1
 let s:save_cpo = &cpo
 set cpo&vim
+
+"- configuration ---------------------------------------------------------------
+
+if ! exists('g:fuf_digest_vim_FilteredCommandsPatterns')
+    let g:fuf_digest_vim_FilteredCommandsPatterns = []
+endif
+if ! exists('g:fuf_digest_vim_FilteredMappingsPatterns')
+    let g:fuf_digest_vim_FilteredMappingsPatterns = []
+endif
+
+
+"- commands --------------------------------------------------------------------
 
 command! -bar -nargs=?       Commands call fuf#digest#vim#GlobalCommand(<q-args>)
 command! -bar -nargs=? BufferCommands call fuf#digest#vim#BufferCommand(<q-args>)

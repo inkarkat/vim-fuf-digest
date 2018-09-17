@@ -3,24 +3,13 @@
 " DEPENDENCIES:
 "   - fuf/digest.vim autoload script
 "   - ingo/escape/command.vim autoload script
+"   - ingo/matches.vim autoload script
 "   - ingo/msg.vim autoload script
 "
-" Copyright: (C) 2017 Ingo Karkat
+" Copyright: (C) 2017-2018 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
-"
-" REVISION	DATE		REMARKS
-"	004	29-Nov-2017	Rename fuf#digest#vim#MappingAnyMode() to
-"				fuf#digest#vim#MappingGenericMode(); accept and
-"				pass on mode as first argument. This way, we
-"				digest only the mappings of that mode, not all
-"				modes.
-"	003	03-Nov-2017	FIX: Also consider ! :map prefix.
-"				ENH: Support a:options.isFilterPhysicalMappings.
-"				Add fuf#digest#vim#MappingAnyMode().
-"	002	25-Oct-2017	Add functions digesting Vim commands.
-"	001	24-Oct-2017	file creation
 
 function! s:JoinLastSetFromAndSplit( commandOutput )
     " Join the "Last set from ..." lines into the previous line, keeping just
@@ -50,6 +39,12 @@ function! fuf#digest#vim#Mapping( mode, mapPrefix, actions, options )
     " one with just a:mapPrefix as {lhs}.)
     call filter(l:mappings, 'v:val[1] !~# "\\<fuf#digest#vim#"')
 
+    " Filter out lhs that match any configured ignore pattern.
+    if ! empty(g:fuf_digest_vim_FilteredMappingsPatterns)
+	call filter(l:mappings, '! ingo#matches#Any(v:val[0], g:fuf_digest_vim_FilteredMappingsPatterns)')
+    endif
+
+    " Apply custom filter last.
     if ! empty(l:filter)
 	call filter(l:mappings, l:filter)
     endif
@@ -110,6 +105,12 @@ function! fuf#digest#vim#Command( isBufferOnly, commandPrefix, actions, options 
     " Parse into [command, none, menu].
     call map(l:commands, 'split(substitute(v:val, ''^\([ !"b]\{4\}\)\(\S\+\)\s\+\%(.*\)\(.*\)$'', ''\2\1 \3'', ""), "", 1)')
 
+    " Filter out command that match any configured ignore pattern.
+    if ! empty(g:fuf_digest_vim_FilteredCommandsPatterns)
+	call filter(l:mappings, '! ingo#matches#Any(v:val[0], g:fuf_digest_vim_FilteredCommandsPatterns)')
+    endif
+
+    " Apply custom filter last.
     if ! empty(l:filter)
 	call filter(l:commands, l:filter)
     endif
