@@ -1,0 +1,102 @@
+*fuf_digest.txt*        Drill-down into almost arbitrary data with FuzzyFinder.
+
+			 FUF_DIGEST    by Ingo Karkat
+							      *fuf_digest.vim*
+description			|fuf_digest-description|
+usage				|fuf_digest-usage|
+installation			|fuf_digest-installation|
+configuration			|fuf_digest-configuration|
+integration			|fuf_digest-integration|
+limitations			|fuf_digest-limitations|
+known problems			|fuf_digest-known-problems|
+todo				|fuf_digest-todo|
+history				|fuf_digest-history|
+
+==============================================================================
+DESCRIPTION					      *fuf_digest-description*
+
+This plugin ...
+
+HOW IT WORKS								     *
+
+SOURCE									     *
+(Original Vim tip, Stack Overflow answer, ...)
+
+SEE ALSO								     *
+(Plugins offering complementary functionality, or plugins using this library.)
+
+RELATED WORKS								     *
+(Alternatives from other authors, other approaches, references not used here.)
+
+==============================================================================
+USAGE							    *fuf_digest-usage*
+
+:Commands [{cmd}]	Drill-down into [that start with {cmd}].
+:BufferCommands [{cmd}]	Drill-down into buffer-local commands [that start with
+			{cmd}].
+
+:Maps, :Nmaps, :Omaps, :Vmaps, :Xmaps, :Smaps, :Imaps, :Cmaps
+			List mappings bound to physical key(s); skip <Plug> and
+			<SNR> mappings in the output.
+EXAMPLE							  *fuf_digest-example*
+
+==============================================================================
+INSTALLATION					     *fuf_digest-installation*
+
+The code is hosted in a Git repo at https://github.com/inkarkat/vim-fuf_digest
+You can use your favorite plugin manager, or "git clone" into a directory used
+for Vim |packages|. Releases are on the "stable" branch, the latest unstable
+development snapshot on "master".
+
+This script is also packaged as a |vimball|. If you have the "gunzip"
+decompressor in your PATH, simply edit the *.vmb.gz package in Vim; otherwise,
+decompress the archive first, e.g. using WinZip. Inside Vim, install by
+sourcing the vimball or via the |:UseVimball| command. >
+    vim fuf_digest*.vmb.gz
+    :so %
+To uninstall, use the |:RmVimball| command.
+
+DEPENDENCIES					     *fuf_digest-dependencies*
+
+- Requires Vim 7.0 or higher.
+
+==============================================================================
+CONFIGURATION					    *fuf_digest-configuration*
+
+For a permanent configuration, put the following commands into your |vimrc|:
+configvar
+							    *fuf_digest-remap*
+plugmap
+==============================================================================
+INTEGRATION					      *fuf_digest-integration*
+
+==============================================================================
+LIMITATIONS					      *fuf_digest-limitations*
+
+KNOWN PROBLEMS					   *fuf_digest-known-problems*
+
+TODO							     *fuf_digest-todo*
+
+IDEAS							    *fuf_digest-ideas*
+
+CONTRIBUTING					       *fuf_digest-contribute*
+
+Report any bugs, send patches, or suggest features via the issue tracker at
+https://github.com/inkarkat/vim-fuf_digest/issues or email (address below).
+
+==============================================================================
+HISTORY							  *fuf_digest-history*
+
+GOAL
+First published version.
+
+0.01	03-Nov-2017
+Started development.
+
+==============================================================================
+Copyright: (C) 2017-2018 Ingo Karkat
+The VIM LICENSE applies to this plugin; see |copyright|.
+
+Maintainer:	Ingo Karkat <ingo@karkat.de>
+==============================================================================
+ vim:tw=78:ts=8:ft=help:norl:
