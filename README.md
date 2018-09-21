@@ -47,6 +47,8 @@ To uninstall, use the :RmVimball command.
 ### DEPENDENCIES
 
 - Requires Vim 7.0 or higher.
+- Requires my fork of the (abandoned) fuzzyfinder.vim plugin (vimscript
+  #1984) at https://github.com/inkarkat/FuzzyFinder
 - Requires the ingo-library.vim plugin ([vimscript #4433](http://www.vim.org/scripts/script.php?script_id=4433)), version 1.035 or
   higher.
 
@@ -64,7 +66,6 @@ out:
     let g:fuf_digest_vim_FilteredCommandsPatterns = ['IgnoreMe']
     let g:fuf_digest_vim_FilteredMappingsPatterns = ['^\\xy']
 
-plugmap
 CONTRIBUTING
 ------------------------------------------------------------------------------
 
