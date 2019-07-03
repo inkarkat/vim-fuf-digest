@@ -6,7 +6,7 @@
 "   - ingo/compat.vim autoload script
 "   - ingo/strdisplaywidth/pad.vim autoload script
 "
-" Copyright: (C) 2017 Ingo Karkat
+" Copyright: (C) 2017-2019 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -17,7 +17,7 @@ let s:OPEN_TYPE_VSPLIT  = 3
 let s:OPEN_TYPE_TAB     = 4
 
 let s:listener = {}
-function! s:listener.onComplete( item, method )
+function! s:listener.onComplete( item, method ) abort
     let l:idx = index(s:items, a:item)
     if l:idx == -1 | throw 'ASSERT: Could not find item: ' . a:item | endif
 
@@ -33,7 +33,7 @@ function! s:listener.onAbort()
     endif
 endfunction
 
-function! s:ToFufItem( joiner, joinMaxWidth, item )
+function! s:ToFufItem( joiner, joinMaxWidth, item ) abort
     " key [, value [, menu [, invisible [, ...]]]]
     if type(a:item) != type([]) || len(a:item) == 1
 	return a:item
@@ -48,7 +48,7 @@ function! s:ToFufItem( joiner, joinMaxWidth, item )
 
     return (len(a:item) > 2 ? [l:word, a:item[2]] : l:word)
 endfunction
-function! fuf#digest#launch( partialMatching, prompt, items, actions, options )
+function! fuf#digest#launch( partialMatching, prompt, items, actions, options ) abort
     let l:joiner = get(a:options, 'joiner', "\t")
     let l:joinMaxWidth = get(a:options, 'joinMaxWidth', -1)
     if l:joinMaxWidth == -1

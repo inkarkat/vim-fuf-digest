@@ -6,18 +6,18 @@
 "   - ingo/matches.vim autoload script
 "   - ingo/msg.vim autoload script
 "
-" Copyright: (C) 2017-2018 Ingo Karkat
+" Copyright: (C) 2017-2019 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 
-function! s:JoinLastSetFromAndSplit( commandOutput )
+function! s:JoinLastSetFromAndSplit( commandOutput ) abort
     " Join the "Last set from ..." lines into the previous line, keeping just
     " the source script basename.
     return split(substitute(a:commandOutput, '\n\t[^\n]*[/\\]\([^\n/\\]*\)', '\1', 'g'), '\n')
 endfunction
 
-function! fuf#digest#vim#Mapping( mode, mapPrefix, actions, options )
+function! fuf#digest#vim#Mapping( mode, mapPrefix, actions, options ) abort
     let l:filter = get(a:options, 'filter', '')
     let l:isFilterPhysicalMappings = get(a:options, 'isFilterPhysicalMappings', 0)
 
@@ -52,42 +52,42 @@ function! fuf#digest#vim#Mapping( mode, mapPrefix, actions, options )
     call fuf#digest#launch(1, a:mode . 'map>', l:mappings, a:actions, a:options)
 endfunction
 
-function! fuf#digest#vim#MappingGenericMode( mode, mapPrefix, ... )
+function! fuf#digest#vim#MappingGenericMode( mode, mapPrefix, ... ) abort
     call fuf#digest#vim#Mapping(a:mode, a:mapPrefix, [''], (a:0 ? a:1 : {}))
 endfunction
 
-function! fuf#digest#vim#MappingNormalMode( mapPrefix, ... )
+function! fuf#digest#vim#MappingNormalMode( mapPrefix, ... ) abort
     call fuf#digest#vim#Mapping('n', a:mapPrefix, ['', function('fuf#digest#vim#ExecuteNormalMode')], (a:0 ? a:1 : {}))
 endfunction
-function! fuf#digest#vim#ExecuteNormalMode( lhs, rhs, menu )
+function! fuf#digest#vim#ExecuteNormalMode( lhs, rhs, menu ) abort
     call feedkeys(a:lhs, 't')
 endfunction
 
-function! fuf#digest#vim#MappingVisualMode( mapPrefix, ... )
+function! fuf#digest#vim#MappingVisualMode( mapPrefix, ... ) abort
     call fuf#digest#vim#Mapping('v', a:mapPrefix, [function('fuf#digest#vim#ReturnToVisualMode'), function('fuf#digest#vim#ExecuteVisualMode')], (a:0 ? a:1 : {}))
 endfunction
-function! fuf#digest#vim#ExecuteVisualMode( lhs, rhs, menu )
+function! fuf#digest#vim#ExecuteVisualMode( lhs, rhs, menu ) abort
     call feedkeys('gv', 'n')
     call feedkeys(ingo#escape#command#mapeval(a:lhs), 't')
 endfunction
-function! fuf#digest#vim#ReturnToVisualMode()
+function! fuf#digest#vim#ReturnToVisualMode() abort
     call feedkeys('gv', 'n')
 endfunction
 
-function! fuf#digest#vim#MappingInsertMode( mapPrefix, ... )
+function! fuf#digest#vim#MappingInsertMode( mapPrefix, ... ) abort
     call fuf#digest#vim#Mapping('i', a:mapPrefix, [function('fuf#digest#vim#ReturnToInsertMode'), function('fuf#digest#vim#ExecuteInsertMode')], (a:0 ? a:1 : {}))
 endfunction
-function! fuf#digest#vim#ExecuteInsertMode( lhs, rhs, menu )
+function! fuf#digest#vim#ExecuteInsertMode( lhs, rhs, menu ) abort
     call feedkeys("\<C-\>\<C-n>gi", 'n')
     call feedkeys(ingo#escape#command#mapeval(a:lhs), 't')
 endfunction
-function! fuf#digest#vim#ReturnToInsertMode()
+function! fuf#digest#vim#ReturnToInsertMode() abort
     call feedkeys("\<C-\>\<C-n>gi", 'n')
 endfunction
 
 
 
-function! fuf#digest#vim#Command( isBufferOnly, commandPrefix, actions, options )
+function! fuf#digest#vim#Command( isBufferOnly, commandPrefix, actions, options ) abort
     let l:filter = get(a:options, 'filter', '')
 
     redir => l:commandOutput
@@ -118,16 +118,16 @@ function! fuf#digest#vim#Command( isBufferOnly, commandPrefix, actions, options 
     call fuf#digest#launch(1, (a:isBufferOnly ? 'b' : '') . 'command>', l:commands, a:actions, a:options)
 endfunction
 
-function! fuf#digest#vim#GlobalCommand( commandPrefix )
+function! fuf#digest#vim#GlobalCommand( commandPrefix ) abort
     call fuf#digest#vim#Command(0, a:commandPrefix, ['', function('fuf#digest#vim#SeedCommandLineWithCommand'), function('fuf#digest#vim#DirectExecuteCommand')], {})
 endfunction
-function! fuf#digest#vim#BufferCommand( commandPrefix )
+function! fuf#digest#vim#BufferCommand( commandPrefix ) abort
     call fuf#digest#vim#Command(1, a:commandPrefix, ['', function('fuf#digest#vim#SeedCommandLineWithCommand'), function('fuf#digest#vim#DirectExecuteCommand')], {})
 endfunction
-function! fuf#digest#vim#SeedCommandLineWithCommand( command, none, menu )
+function! fuf#digest#vim#SeedCommandLineWithCommand( command, none, menu ) abort
     call feedkeys("\<C-\>\<C-n>:" . a:command, 'n')
 endfunction
-function! fuf#digest#vim#DirectExecuteCommand( command, none, menu )
+function! fuf#digest#vim#DirectExecuteCommand( command, none, menu ) abort
     try
 	execute a:command
     catch /^Vim\%((\a\+)\)\=:/
