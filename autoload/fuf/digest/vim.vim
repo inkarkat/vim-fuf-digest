@@ -31,6 +31,12 @@ function! fuf#digest#vim#Mapping( mode, mapPrefix, actions, options ) abort
     " mapping mode(s) + basename.
     call map(l:mappings, 'split(substitute(v:val, ''^\([ [:alpha:]!]\{1,3\} \{0,2\}\)\(\S\+\)\s\+\([*&@ ]\s\)\?\(.*\)\(.*\)$'', ''\2\4\3\1 \5'', ""), "", 1)')
 
+    " When there is no mapping, there'll only be a single [['No mappings
+    " found']] List element. As the latter assumes (at least) [lhs, rhs, ...],
+    " throw out this element to that we'll start FuzzyFinder with no data, just
+    " like with the Vim command variant.
+    call filter(l:mappings, 'len(v:val) > 1')
+
     if l:isFilterPhysicalMappings
 	call filter(l:mappings, 'v:val[0] !~# ''^\%(<Plug>\|<SNR>\)''')
     endif
