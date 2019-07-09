@@ -1,10 +1,7 @@
 " fuf/digest/vim.vim: Drill-down to Vim mappings and commands.
 "
 " DEPENDENCIES:
-"   - fuf/digest.vim autoload script
-"   - ingo/escape/command.vim autoload script
-"   - ingo/matches.vim autoload script
-"   - ingo/msg.vim autoload script
+"   - ingo-library.vim plugin
 "
 " Copyright: (C) 2017-2019 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
@@ -105,11 +102,11 @@ function! fuf#digest#vim#Command( isBufferOnly, commandPrefix, actions, options 
     let l:commands = s:JoinLastSetFromAndSplit(l:commandOutput)
 
     if a:isBufferOnly
-	let l:commands = filter(l:commands, 'v:val =~# ''^\%([^b] \)\?b ''')
+	let l:commands = filter(l:commands, 'v:val =~# ''^[ !"|]*b[ !"|]* ''')
     endif
 
     " Parse into [command, none, menu].
-    call map(l:commands, 'split(substitute(v:val, ''^\([ !"b]\{4\}\)\(\S\+\)\s\+\%(.*\)\(.*\)$'', ''\2\1 \3'', ""), "", 1)')
+    call map(l:commands, 'split(substitute(v:val, ''^\([ !"b|]\{4\}\)\(\S\+\)\s\+\%(.*\)\(.*\)$'', ''\2\1 \3'', ""), "", 1)')
 
     " Filter out command that match any configured ignore pattern.
     if ! empty(g:fuf_digest_vim_FilteredCommandsPatterns)
